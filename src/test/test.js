@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import ProTypes from 'prop-types';
 
 class Test extends Component {
   render() {
@@ -320,6 +321,54 @@ class Calculator extends React.Component {
   }
 }
 
+class Greeting extends Component {
+  render() {
+    return (
+        <h1>Hello, {this.props.name}, {this.constructor.name}, {this.props.age}</h1>
+    );
+  }
+}
+
+Greeting.propTypes = {
+  name: ProTypes.string
+};
+
+Greeting.defaultProps = {
+  age: 30
+};
+
+
+class CustomTextInput extends React.Component {
+  constructor(props) {
+    super(props);
+    this.focus = this.focus.bind(this);
+  }
+
+  focus() {
+    // Explicitly focus the text input using the raw DOM API
+    this.textInput.focus();
+  }
+
+  render() {
+    // Use the `ref` callback to store a reference to the text input DOM
+    // element in an instance field (for example, this.textInput).
+    return (
+        <div>
+          <input
+              type="text"
+              ref={(input) => {
+                this.textInput = input;
+              }}/>
+          <input
+              type="button"
+              value="Focus the text input"
+              onClick={this.focus}
+          />
+        </div>
+    );
+  }
+}
+
 function toCelsius(fahrenheit) {
   return (fahrenheit - 32) * 5 / 9;
 }
@@ -338,6 +387,64 @@ function tryConvert(temperature, convert) {
   return rounded.toString();
 }
 
+class CounterButton extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {count: 1};
+  }
 
-export {Test, Toggle, Mailbox, Page, Numberlist, NameForm, EssayForm, FlavorForm, Reservation, Calculator};
+  render() {
+    return (
+        <button
+            color={this.props.color}
+            onClick={() => this.setState(state => ({count: state.count + 1}))}>
+          count: {this.state.count}
+        </button>
+    );
+  }
+}
+
+class ListOfWords extends React.PureComponent {
+  render() {
+    return <div>{this.props.words.join(',')}</div>;
+  }
+}
+
+class WordAdder extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      words: ['marklar']
+    };
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    // This section is bad style and causes a bug
+    const words = this.state.words;
+    words.push('marklar');
+    this.setState({words: words});
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.props.words !== nextProps.words) {
+      return false;
+    }
+    return false;
+  }
+
+  render() {
+    return (
+        <div>
+          <button onClick={this.handleClick}>Click</button>
+          <ListOfWords words={this.state.words} />
+        </div>
+    );
+  }
+}
+
+export {
+  Test, Toggle, Mailbox, Page, Numberlist, NameForm, EssayForm, FlavorForm, Reservation, Calculator, Greeting,
+  CustomTextInput, CounterButton, WordAdder
+};
 
