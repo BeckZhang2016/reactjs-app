@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
+import 'antd/dist/antd.min.css'
 import {
   Test, Toggle, Mailbox, Page, Numberlist, NameForm, EssayForm,
   FlavorForm, Reservation, Calculator, Greeting, CustomTextInput, CounterButton,

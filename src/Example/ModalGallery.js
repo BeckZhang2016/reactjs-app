@@ -6,6 +6,8 @@ import {
   Link
 } from 'react-router-dom'
 
+import {Button} from 'antd'
+
 class ModalSwitch extends React.Component {
   previousLocation = this.props.location;
 
@@ -99,6 +101,7 @@ const ImageView = ({match}) => {
       <div>
         <h1>{image.title}</h1>
         <Image color={image.color}/>
+        <Button type="primary">Button</Button>
       </div>
   )
 };
